@@ -3,18 +3,18 @@ import mysql.connector as mariadb
 import sys
 
 if(len(sys.argv) != 6):
-	sys.exit("Incorrect number of arguments. Usage: [FILE] [HOST] [USER] [PASSWORD] [DATABASE]\nClosing...")	
+	sys.exit("Incorrect number of arguments. Usage: [FILE] [HOST] [USER] [PASSWORD] [TABLE]\nClosing...")	
 
 # Connect to local mariadb server
 db = mariadb.connect(
     host=sys.argv[2],
     user=sys.argv[3],
     passwd=sys.argv[4],
-    database=sys.argv[5]
+    database="OpenHAB"
 )
 
 cur = db.cursor()
-cur.execute("SELECT * FROM Item2")
+cur.execute("SELECT * FROM " + sys.argv[5])
 
 
 # Format data into json eg:
