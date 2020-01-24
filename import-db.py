@@ -3,7 +3,8 @@ import mysql.connector as mariadb
 import sys
 
 if(len(sys.argv) != 6):
-	sys.exit("Incorrect number of arguments. Usage: [FILE] [HOST] [USER] [PASSWORD] [TABLE]\nClosing...")	
+	sys.exit("Incorrect number of arguments. Usage: [FILE] [HOST] [USER] [PASSWORD] [TABLE]\nClosing...")
+
 
 # Connect to local mariadb server
 db = mariadb.connect(

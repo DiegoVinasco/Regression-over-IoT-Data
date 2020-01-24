@@ -1,8 +1,7 @@
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import LinearRegression
 from matplotlib import dates, pyplot
-from datetime import datetime 
-import mysql.connector as mariadb
+from datetime import datetime
 import pandas
 import json
 import sys
@@ -21,14 +20,13 @@ def viz_polynomial(prediction, degree):
     pyplot.show()
     return
 
-# Create a best fit curve for a given
+# Create a best fit curve for a given. Returns an array of best fit and score
 def fit_polynomial(x, y, degree=4):
     pol_reg = LinearRegression()
     poly_reg = PolynomialFeatures(degree=degree)
     x_poly = poly_reg.fit_transform(x)
     pol_reg.fit(x_poly, y)
-    print("Degree: {}, Regression Score: {}".format( degree, pol_reg.score(x_poly,y)) )
-    viz_polynomial( pol_reg.predict( poly_reg.fit_transform(x) ), degree )
+    return [pol_reg.predict(x_poly), pol_reg.score(x_poly,y)]
 
 
 
@@ -51,18 +49,24 @@ x         = data.iloc[:, 0:1].values
 y         = data.iloc[:, 1].values
 datetimes = data.iloc[:, 2].values
 
-# print(data)
+print(data)
 # print(x)
 # print(y)
 # print(datetimes)
 
 
 # Fitting Polynomial Regression
-
+fit = None
+degree = 4
 if( len(sys.argv) == 4 ):
-    fit_polynomial(x, y, int(sys.argv[3]))
+    degree = int(sys.argv[3])
 else:
-    fit_polynomial(x, y)
+    fit = fit_polynomial(x, y)
+
+fit = fit_polynomial(x, y, degree)
+print("Degree: {}\nR^2: {}".format( degree, fit[1] ))
 
 # for i in range(9):
 #     fit_polynomial(x, y, i)
+
+viz_polynomial( fit[0], degree )
