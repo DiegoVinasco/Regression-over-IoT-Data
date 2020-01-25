@@ -1,0 +1,13 @@
+rule "Light ON"
+when
+  Time cron "00 30 14 * * * ?"
+then
+  Sensor_A_Switch.sendCommand(ON)
+end
+
+rule "Light OFF"
+when
+  Time cron "00 00 05 * * * ?"
+then
+  Sensor_A_Switch.sendCommand(OFF)
+end
